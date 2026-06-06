@@ -27,6 +27,7 @@ export default function MealFlowFamily() {
             </p>
           </section>
 
+          <section>
             <h2 className="text-2xl font-semibold mb-3">
               Solution
             </h2>
