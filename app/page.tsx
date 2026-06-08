@@ -88,7 +88,7 @@ export default function Home() {
 
               </h2>
               <p className="mb-3 text-lg font-bold text-teal-700">
-                Solution Analyst • Lead System Analyst • Integration Analyst
+                Solution Analyst • Integration Analyst
               </p>
 
               <p className="mb-8 text-lg text-gray-600">
