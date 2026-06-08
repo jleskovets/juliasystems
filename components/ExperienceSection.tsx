@@ -107,8 +107,8 @@ const experience = [
     technologies: ["Kafka", "REST API", "SOA", "UML", "Data Modeling"],
   },
   {
-    icon: "S",
-    company: "SBER",
+    icon: "N",
+    company: "NDA Bank domain",
     role: "Lead System Analyst",
     period: "Feb 2021 – Jan 2022",
     description:
