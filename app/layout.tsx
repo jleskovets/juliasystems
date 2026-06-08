@@ -12,13 +12,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import type { Metadata } from "next";
-import "./globals.css";
-
 export const metadata: Metadata = {
-  title: "JuliaSystems | Senior System Analyst Portfolio",
+  metadataBase: new URL("https://www.juliasystems.net"),
+
+  title: {
+    default: "JuliaSystems",
+    template: "%s | JuliaSystems",
+  },
+
   description:
     "Portfolio of Yuliia Leskovets — Senior System Analyst specializing in integrations, APIs, distributed systems and enterprise solutions.",
+
+  keywords: [
+    "System Analyst",
+    "Solution Analyst",
+    "Integration Analyst",
+    "API Design",
+    "Enterprise Systems",
+    "Distributed Systems",
+    "BPMN",
+    "UML",
+    "Microservices",
+    "JuliaSystems",
+  ],
+
+  authors: [
+    {
+      name: "Yuliia Leskovets",
+    },
+  ],
 
   icons: {
     icon: "/favicon.ico",
@@ -33,6 +55,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "JuliaSystems",
+    description:
+      "Senior System Analyst Portfolio — Enterprise Systems, APIs and Integrations.",
+  },
 };
 
 export default function RootLayout({
@@ -43,9 +72,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-screen bg-white text-gray-950">
+        {children}
+      </body>
     </html>
   );
 }
