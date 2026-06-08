@@ -42,10 +42,6 @@ export const metadata: Metadata = {
     },
   ],
 
-  icons: {
-    icon: "/icon.png",
-  },
-
   openGraph: {
     title: "JuliaSystems",
     description:
