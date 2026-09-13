@@ -21,7 +21,7 @@ export default function Header() {
           </a>
           
           <a
-            href="/PROanalytics"
+            href="/pro-analytics"
             className="hover:text-teal-700"
           >
             PRO analytics
