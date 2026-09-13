@@ -3,6 +3,8 @@ import ProAnalyticsClient from "@/components/ProAnalyticsClient";
 import fs from "fs";
 import path from "path";
 
+type Language = "ru" | "en";
+
 type Article = {
   number: string;
   title: string;
@@ -16,7 +18,7 @@ type Section = {
   articles: Article[];
 };
 
-const sectionTitles = {
+const sectionTitles: Record<Language, Record<string, string>> = {
   ru: {
     "1": "Введение",
     "2": "Требования",
@@ -32,7 +34,7 @@ const sectionTitles = {
   },
 };
 
-function loadArticles(language: "ru" | "en"): Section[] {
+function loadArticles(language: Language): Section[] {
   const directory = path.join(
     process.cwd(),
     "app",
@@ -47,8 +49,7 @@ function loadArticles(language: "ru" | "en"): Section[] {
 
   const files = fs
     .readdirSync(directory)
-    .filter((file) => file.endsWith(".md"))
-    .sort();
+    .filter((file) => file.endsWith(".md"));
 
   const articles: Article[] = files.map((file) => {
     const filePath = path.join(directory, file);
@@ -57,20 +58,30 @@ function loadArticles(language: "ru" | "en"): Section[] {
 
     const lines = rawContent.split(/\r?\n/);
 
-    // Первая строка файла = название статьи
-    const title = lines[0].replace(/^#\s*/, "").trim();
+    // First line of Markdown file = article title
+    const title = lines[0]
+      .replace(/^#\s*/, "")
+      .trim();
 
-    // Всё после первой строки = содержание статьи
-    const content = lines.slice(1).join("\n").trim();
+    // Everything after the first line = article content
+    const content = lines
+      .slice(1)
+      .join("\n")
+      .trim();
 
-    // Например:
-    // 2-3-perfect-requirements.md
-    //
-    // превращается в:
-    // number = 2.3
-    // slug = perfect-requirements
+    const fileName = file.replace(/\.md$/, "");
 
-    const fileName = file.replace(".md", "");
+    /*
+      Expected filename:
+
+      1-1-about-me.md
+      1-2-who-is-an-analyst.md
+      2-1-what-are-requirements.md
+
+      Structure:
+
+      section-article-slug
+    */
 
     const match = fileName.match(
       /^(\d+)-(\d+)-(.+)$/
@@ -78,7 +89,7 @@ function loadArticles(language: "ru" | "en"): Section[] {
 
     if (!match) {
       throw new Error(
-        `Invalid article filename: ${file}`
+        `Invalid article filename: ${file}. Expected format: 1-1-about-me.md`
       );
     }
 
@@ -94,6 +105,46 @@ function loadArticles(language: "ru" | "en"): Section[] {
     };
   });
 
+  /*
+    Important:
+    Sort numerically, not alphabetically.
+
+    Otherwise:
+    1.10
+    could appear before
+    1.2
+  */
+
+  articles.sort((a, b) => {
+    const [aSection, aArticle] = a.number
+      .split(".")
+      .map(Number);
+
+    const [bSection, bArticle] = b.number
+      .split(".")
+      .map(Number);
+
+    if (aSection !== bSection) {
+      return aSection - bSection;
+    }
+
+    return aArticle - bArticle;
+  });
+
+  /*
+    Build the section structure:
+
+    Section 1
+      1.1
+      1.2
+      1.3
+
+    Section 2
+      2.1
+      2.2
+      ...
+  */
+
   const sections: Section[] = [];
 
   for (const article of articles) {
@@ -107,9 +158,8 @@ function loadArticles(language: "ru" | "en"): Section[] {
       section = {
         number: sectionNumber,
         title:
-          sectionTitles[language][
-            sectionNumber as keyof typeof sectionTitles.ru
-          ] ?? `Section ${sectionNumber}`,
+          sectionTitles[language][sectionNumber] ??
+          `Section ${sectionNumber}`,
         articles: [],
       };
 
