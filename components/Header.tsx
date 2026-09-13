@@ -19,6 +19,13 @@ export default function Header() {
           >
             Meal Flow Family
           </a>
+          
+          <a
+            href="/Julia|PROanalytics"
+            className="hover:text-teal-700"
+          >
+            Julia | PRO analytics
+          </a>
         </nav>
       </div>
     </header>
