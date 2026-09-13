@@ -5,10 +5,20 @@ import path from "path";
 
 type Language = "ru" | "en";
 
-type Article = {
+type ArticleConfig = {
   number: string;
   title: string;
   slug: string;
+  file: string;
+};
+
+type SectionConfig = {
+  number: string;
+  title: string;
+  articles: ArticleConfig[];
+};
+
+type Article = ArticleConfig & {
   content: string;
 };
 
@@ -18,20 +28,246 @@ type Section = {
   articles: Article[];
 };
 
-const sectionTitles: Record<Language, Record<string, string>> = {
-  ru: {
-    "1": "Введение",
-    "2": "Требования",
-    "3": "Бизнес-анализ",
-    "4": "Системный анализ",
-  },
+/*
+ * Static structure of PRO analytics.
+ *
+ * The structure is defined here manually.
+ * Each article is explicitly connected to a Markdown file.
+ */
 
-  en: {
-    "1": "Introduction",
-    "2": "Requirements",
-    "3": "Business Analysis",
-    "4": "System Analysis",
-  },
+const structure: Record<Language, SectionConfig[]> = {
+  ru: [
+    {
+      number: "1",
+      title: "Введение",
+      articles: [
+        {
+          number: "1.1",
+          title: "Обо мне",
+          slug: "about-me",
+          file: "1-1-about-me.md",
+        },
+        {
+          number: "1.2",
+          title: "Кто такой аналитик?",
+          slug: "who-is-an-analyst",
+          file: "1-2-who-is-an-analyst.md",
+        },
+        {
+          number: "1.3",
+          title:
+            "Business Analyst vs System Analyst vs Solution Analyst",
+          slug: "ba-vs-sa-vs-solution-analyst",
+          file: "1-3-ba-vs-sa-vs-solution-analyst.md",
+        },
+        {
+          number: "1.4",
+          title:
+            "Как вообще выглядит жизненный цикл разработки?",
+          slug: "software-development-lifecycle",
+          file: "1-4-software-development-lifecycle.md",
+        },
+      ],
+    },
+
+    {
+      number: "2",
+      title: "Требования",
+      articles: [
+        {
+          number: "2.1",
+          title: "Что такое требования?",
+          slug: "what-are-requirements",
+          file: "2-1-what-are-requirements.md",
+        },
+        {
+          number: "2.2",
+          title: "Какие бывают требования?",
+          slug: "types-of-requirements",
+          file: "2-2-types-of-requirements.md",
+        },
+        {
+          number: "2.3",
+          title:
+            "Идеальные требования существуют? И почему требования никогда не бывают полными?",
+          slug: "perfect-requirements",
+          file: "2-3-perfect-requirements.md",
+        },
+        {
+          number: "2.4",
+          title: "Что на самом деле нужно разработчикам?",
+          slug: "what-developers-need",
+          file: "2-4-what-developers-need.md",
+        },
+        {
+          number: "2.5",
+          title: "Как задавать правильные вопросы?",
+          slug: "how-to-ask-right-questions",
+          file: "2-5-how-to-ask-right-questions.md",
+        },
+      ],
+    },
+
+    {
+      number: "3",
+      title: "Бизнес-анализ",
+      articles: [
+        {
+          number: "3.1",
+          title: "Бизнес-процессы",
+          slug: "business-processes",
+          file: "3-1-business-processes.md",
+        },
+        {
+          number: "3.2",
+          title: "BPMN — как описывать бизнес-процессы",
+          slug: "bpmn",
+          file: "3-2-bpmn.md",
+        },
+        {
+          number: "3.3",
+          title: "AS IS → TO BE",
+          slug: "as-is-to-be",
+          file: "3-3-as-is-to-be.md",
+        },
+        {
+          number: "3.4",
+          title: "Выявление требований",
+          slug: "requirements-elicitation",
+          file: "3-4-requirements-elicitation.md",
+        },
+      ],
+    },
+
+    {
+      number: "4",
+      title: "Системный анализ",
+      articles: [
+        {
+          number: "4.1",
+          title: "Введение в системный анализ",
+          slug: "introduction-to-system-analysis",
+          file: "4-1-introduction-to-system-analysis.md",
+        },
+      ],
+    },
+  ],
+
+  en: [
+    {
+      number: "1",
+      title: "Introduction",
+      articles: [
+        {
+          number: "1.1",
+          title: "About Me",
+          slug: "about-me",
+          file: "1-1-about-me.md",
+        },
+        {
+          number: "1.2",
+          title: "Who Is an Analyst?",
+          slug: "who-is-an-analyst",
+          file: "1-2-who-is-an-analyst.md",
+        },
+        {
+          number: "1.3",
+          title:
+            "Business Analyst vs System Analyst vs Solution Analyst",
+          slug: "ba-vs-sa-vs-solution-analyst",
+          file: "1-3-ba-vs-sa-vs-solution-analyst.md",
+        },
+        {
+          number: "1.4",
+          title: "What Does the Software Development Lifecycle Look Like?",
+          slug: "software-development-lifecycle",
+          file: "1-4-software-development-lifecycle.md",
+        },
+      ],
+    },
+
+    {
+      number: "2",
+      title: "Requirements",
+      articles: [
+        {
+          number: "2.1",
+          title: "What Are Requirements?",
+          slug: "what-are-requirements",
+          file: "2-1-what-are-requirements.md",
+        },
+        {
+          number: "2.2",
+          title: "What Types of Requirements Are There?",
+          slug: "types-of-requirements",
+          file: "2-2-types-of-requirements.md",
+        },
+        {
+          number: "2.3",
+          title:
+            "Do Perfect Requirements Exist? And Why Are Requirements Never Complete?",
+          slug: "perfect-requirements",
+          file: "2-3-perfect-requirements.md",
+        },
+        {
+          number: "2.4",
+          title: "What Do Developers Actually Need?",
+          slug: "what-developers-need",
+          file: "2-4-what-developers-need.md",
+        },
+        {
+          number: "2.5",
+          title: "How to Ask the Right Questions?",
+          slug: "how-to-ask-right-questions",
+          file: "2-5-how-to-ask-right-questions.md",
+        },
+      ],
+    },
+
+    {
+      number: "3",
+      title: "Business Analysis",
+      articles: [
+        {
+          number: "3.1",
+          title: "Business Processes",
+          slug: "business-processes",
+          file: "3-1-business-processes.md",
+        },
+        {
+          number: "3.2",
+          title: "BPMN — How to Describe Business Processes",
+          slug: "bpmn",
+          file: "3-2-bpmn.md",
+        },
+        {
+          number: "3.3",
+          title: "AS IS → TO BE",
+          slug: "as-is-to-be",
+          file: "3-3-as-is-to-be.md",
+        },
+        {
+          number: "3.4",
+          title: "Requirements Elicitation",
+          slug: "requirements-elicitation",
+          file: "3-4-requirements-elicitation.md",
+        },
+      ],
+    },
+
+    {
+      number: "4",
+      title: "System Analysis",
+      articles: [
+        {
+          number: "4.1",
+          title: "Introduction to System Analysis",
+          slug: "introduction-to-system-analysis",
+          file: "4-1-introduction-to-system-analysis.md",
+        },
+      ],
+    },
+  ],
 };
 
 function loadArticles(language: Language): Section[] {
@@ -43,133 +279,33 @@ function loadArticles(language: Language): Section[] {
     language
   );
 
-  if (!fs.existsSync(directory)) {
-    return [];
-  }
+  const sections = structure[language];
 
-  const files = fs
-    .readdirSync(directory)
-    .filter((file) => file.endsWith(".md"));
+  return sections.map((section) => {
+    const articles = section.articles.map((article) => {
+      const filePath = path.join(directory, article.file);
 
-  const articles: Article[] = files.map((file) => {
-    const filePath = path.join(directory, file);
+      if (!fs.existsSync(filePath)) {
+        throw new Error(
+          `Markdown file not found: ${filePath}`
+        );
+      }
 
-    const rawContent = fs.readFileSync(filePath, "utf-8");
+      const content = fs
+        .readFileSync(filePath, "utf-8")
+        .trim();
 
-    const lines = rawContent.split(/\r?\n/);
-
-    // First line of Markdown file = article title
-    const title = lines[0]
-      .replace(/^#\s*/, "")
-      .trim();
-
-    // Everything after the first line = article content
-    const content = lines
-      .slice(1)
-      .join("\n")
-      .trim();
-
-    const fileName = file.replace(/\.md$/, "");
-
-    /*
-      Expected filename:
-
-      1-1-about-me.md
-      1-2-who-is-an-analyst.md
-      2-1-what-are-requirements.md
-
-      Structure:
-
-      section-article-slug
-    */
-
-    const match = fileName.match(
-      /^(\d+)-(\d+)-(.+)$/
-    );
-
-    if (!match) {
-      throw new Error(
-        `Invalid article filename: ${file}. Expected format: 1-1-about-me.md`
-      );
-    }
-
-    const sectionNumber = match[1];
-    const articleNumber = match[2];
-    const slug = match[3];
+      return {
+        ...article,
+        content,
+      };
+    });
 
     return {
-      number: `${sectionNumber}.${articleNumber}`,
-      title,
-      slug,
-      content,
+      ...section,
+      articles,
     };
   });
-
-  /*
-    Important:
-    Sort numerically, not alphabetically.
-
-    Otherwise:
-    1.10
-    could appear before
-    1.2
-  */
-
-  articles.sort((a, b) => {
-    const [aSection, aArticle] = a.number
-      .split(".")
-      .map(Number);
-
-    const [bSection, bArticle] = b.number
-      .split(".")
-      .map(Number);
-
-    if (aSection !== bSection) {
-      return aSection - bSection;
-    }
-
-    return aArticle - bArticle;
-  });
-
-  /*
-    Build the section structure:
-
-    Section 1
-      1.1
-      1.2
-      1.3
-
-    Section 2
-      2.1
-      2.2
-      ...
-  */
-
-  const sections: Section[] = [];
-
-  for (const article of articles) {
-    const sectionNumber = article.number.split(".")[0];
-
-    let section = sections.find(
-      (item) => item.number === sectionNumber
-    );
-
-    if (!section) {
-      section = {
-        number: sectionNumber,
-        title:
-          sectionTitles[language][sectionNumber] ??
-          `Section ${sectionNumber}`,
-        articles: [],
-      };
-
-      sections.push(section);
-    }
-
-    section.articles.push(article);
-  }
-
-  return sections;
 }
 
 export default function ProAnalyticsPage() {
