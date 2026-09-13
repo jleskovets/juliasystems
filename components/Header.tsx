@@ -21,10 +21,10 @@ export default function Header() {
           </a>
           
           <a
-            href="/Julia|PROanalytics"
+            href="/PROanalytics"
             className="hover:text-teal-700"
           >
-            Julia | PRO analytics
+            PRO analytics
           </a>
         </nav>
       </div>
