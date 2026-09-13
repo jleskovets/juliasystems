@@ -190,8 +190,9 @@ export default function Home() {
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-8 py-8 text-sm text-gray-600">
             <p>© 2026 JuliaSystems</p>
             <p>Barcelona, Spain</p>
+            <p><Phone>+34 663717393</Phone></p>
             <p>jleskovets@yahoo.com</p>
-            <p>X: @juliasystems</p>
+            <p><Telegram>@julie_arts</Telegram></p>
           </div>
         </footer>
       </main>
