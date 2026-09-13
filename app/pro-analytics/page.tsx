@@ -31,8 +31,9 @@ type Section = {
 /*
  * Static structure of PRO analytics.
  *
- * The structure is defined here manually.
- * Each article is explicitly connected to a Markdown file.
+ * The structure is defined manually.
+ * Markdown files are optional.
+ * If a file does not exist, the article will simply have empty content.
  */
 
 const structure: Record<Language, SectionConfig[]> = {
@@ -179,7 +180,8 @@ const structure: Record<Language, SectionConfig[]> = {
         },
         {
           number: "1.4",
-          title: "What Does the Software Development Lifecycle Look Like?",
+          title:
+            "What Does the Software Development Lifecycle Look Like?",
           slug: "software-development-lifecycle",
           file: "1-4-software-development-lifecycle.md",
         },
@@ -279,21 +281,22 @@ function loadArticles(language: Language): Section[] {
     language
   );
 
-  const sections = structure[language];
-
-  return sections.map((section) => {
+  return structure[language].map((section) => {
     const articles = section.articles.map((article) => {
       const filePath = path.join(directory, article.file);
 
-      if (!fs.existsSync(filePath)) {
-        throw new Error(
-          `Markdown file not found: ${filePath}`
-        );
-      }
+      let content = "";
 
-      const content = fs
-        .readFileSync(filePath, "utf-8")
-        .trim();
+      /*
+       * The Markdown file is optional.
+       *
+       * If it exists — load its content.
+       * If it doesn't exist — leave content empty.
+       */
+
+      if (fs.existsSync(filePath)) {
+        content = fs.readFileSync(filePath, "utf-8").trim();
+      }
 
       return {
         ...article,
