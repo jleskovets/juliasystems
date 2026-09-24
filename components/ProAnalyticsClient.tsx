@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import MarkdownContent from "@/components/MarkdownContent";
 
 type Language = "ru" | "en";
 
@@ -65,9 +66,7 @@ export default function ProAnalyticsClient({ ru, en }: Props) {
     if (currentArticle) {
       setSelectedSlug(currentArticle.slug);
     } else {
-      setSelectedSlug(
-        newSections[0]?.articles[0]?.slug ?? ""
-      );
+      setSelectedSlug(newSections[0]?.articles[0]?.slug ?? "");
     }
   };
 
@@ -140,9 +139,7 @@ export default function ProAnalyticsClient({ ru, en }: Props) {
                         <li key={article.slug}>
                           <button
                             type="button"
-                            onClick={() =>
-                              setSelectedSlug(article.slug)
-                            }
+                            onClick={() => setSelectedSlug(article.slug)}
                             className={`block w-full rounded-md px-3 py-2 text-left text-sm leading-5 transition ${
                               isSelected
                                 ? "bg-gray-100 font-medium text-teal-700"
@@ -183,8 +180,8 @@ export default function ProAnalyticsClient({ ru, en }: Props) {
                 {selectedArticle.title}
               </h2>
 
-              <div className="mt-8 whitespace-pre-wrap text-lg leading-8 text-gray-700">
-                {selectedArticle.content}
+              <div className="mt-8">
+                <MarkdownContent content={selectedArticle.content} />
               </div>
             </article>
           )}
