@@ -1,0 +1,11 @@
+My name is Julia, and I have been working as an analyst for nearly ten years. Over that time I have played quite different roles: I started as a business analyst, and later became more and more immersed in systems analysis, integrations, and information system design — yet I still cannot call myself purely a business analyst or purely a systems analyst. Eventually I settled on describing myself as a **fullstack analyst** — a role that combines business process analysis with the more technical side of software requirements.
+
+I have been lucky enough to work in very different domains: banking, fintech, investments, the automotive industry, and international IT projects. Despite all the differences between these systems, over time I noticed an interesting pattern: technologies change, companies use different processes and tools, but the principles of analysis and system design remain remarkably similar.
+
+Over the years, in the course of my work, I have had to learn new subject areas practically from scratch, make sense of other people's systems, model and redesign business processes, design APIs, describe integrations, and communicate with clients, developers, testers, and architects.
+
+In every new project or company, anyone faces the same problem — knowledge has to be gathered from completely different sources. Articles tend to be highly specialized and narrowly focused, but rarely does anyone explain how the tools connect to each other or why an analyst needs them at all.
+
+In my articles I have tried to collect all of my accumulated experience — not as a reference book of definitions or a collection of templates (although those will be included in a separate section), but as a coherent story about how an analyst thinks, how they approach problems, and why certain tools are used in some situations and others in different ones.
+
+My goal is not to explain how to work with a specific system, framework, or methodology. The world of information technology and software development changes too quickly for articles to remain accurate in every detail. But there are things that almost never change — the ability to ask the right questions, to understand a problem before looking for a solution, to see the connections between processes, people, and systems, and to speak the same language with both business stakeholders and developers.
